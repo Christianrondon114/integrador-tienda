@@ -4,11 +4,17 @@
  */
 package com.tienda.ecommerce.i.model;
 
+import jakarta.persistence.*;
+
 /**
  *
  * @author Ronaldinho
  */
+@Entity
+@Table(name = "productos")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     private String descripcion;
@@ -17,9 +23,28 @@ public class Product {
     private int cantidad;
     private boolean disponible;
     private int stock;
-
+    
+    //creará un campo en la tabla productos para mandar el id de los usuarios o un usuario
+    //con objetos productos y que se 'registre' (mapee) automaticamente a la clase 'usuario' de la
+    //lista productos
+    @ManyToOne
+    private Usuario usuario;
+    
     public Product() {
     }
+
+    public Product(Integer id, String nombre, String descripcion, String imagen, double precio, int cantidad, boolean disponible, int stock, Usuario usuario) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.imagen = imagen;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.disponible = disponible;
+        this.stock = stock;
+        this.usuario = usuario;
+    }
+    
 
     public Integer getId() {
         return id;
@@ -85,6 +110,17 @@ public class Product {
         this.disponible = disponible;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+
+    
+    
     @Override
     public String toString() {
         return "Product{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio + ", cantidad=" + cantidad + ", stock=" + stock + ", imagen=" + imagen + ", disponible=" + disponible + '}';

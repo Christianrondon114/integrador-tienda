@@ -4,11 +4,23 @@
  */
 package com.tienda.ecommerce.i.model;
 
+
+// HACE POSIBLE EL MODELADO DE LA BASE DE DATOS
+import jakarta.persistence.*;
+import java.util.List;
+
+
 /**
  *
  * @author Ronaldinho
  */
+@Entity      
+//Quiere decir que la clase, es una entidad que se va a usar en la base de datos
+@Table(name = "usuarios") 
+//creación de una tabla en la base de datos con el nombre de 'usuarios'
 public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
     private String nombre;
     private String username;
@@ -16,7 +28,14 @@ public class Usuario {
     private String telefono;
     private String tipo;
     private String password;
+    
+    //Se mapea con 'usuario' porque en Product.java hemos creado una variable Usuario usuario
+    @OneToMany(mappedBy="usuario")
+    private List<Product> productos;
 
+    @OneToMany(mappedBy="usuario") 
+    private List<Orden> ordenes;
+    
     public Usuario() {
     }
 
@@ -76,6 +95,23 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Product> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Product> productos) {
+        this.productos = productos;
+    }
+
+    public List<Orden> getOrdenes() {
+        return ordenes;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
+    }
+    
 
     @Override
     public String toString() {
